@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load i18n %}
 
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -61,7 +61,7 @@
                             <div class="col-lg-3 col-md-4">
                                 <div class="header-top-left">
                                     <ul class="phone-wrap">
-                                        <li><span>Telephone Enquiry:</span><a href="#">(+123) 123 321 345</a></li>
+                                        <li><span>{% trans 'Telephone Enquiry' %}:</span><a href="#">(+123) 123 321 345</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -72,32 +72,27 @@
                                     <ul class="ht-menu">
                                         <!-- Begin Setting Area -->
                                         <li>
-                                            <div class="ht-setting-trigger"><span>Setting</span></div>
+                                            <div class="ht-setting-trigger"><span>{% trans 'Settings' %}</span></div>
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
-                                                    <li><a href="login-register.html">My Account</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="login-register.html">Sign In</a></li>
+                                                    <li><a href="login-register.html">{% trans 'My Accounts' %}</a></li>
+                                                    {%if request.user.is_authenticated%}
+                                                        <li><a href="{% url 'users:checkout' %}">Checkout</a></li>
+                                                        <li><a href="{% url 'users:logout'%}">{% trans 'Logout' %}</a></li>
+                                                    {%else%}
+                                                        <li><a href="{% url 'users:register' %}">Register</a></li>
+                                                        <li><a href="{% url 'users:login' %}">Sign In</a></li>
+                                                    {%endif%}
                                                 </ul>
                                             </div>
                                         </li>
                                         <!-- Setting Area End Here -->
                                         <!-- Begin Currency Area -->
-                                        <li>
-                                            <span class="currency-selector-wrapper">Currency :</span>
-                                            <div class="ht-currency-trigger"><span>USD $</span></div>
-                                            <div class="currency ht-currency">
-                                                <ul class="ht-setting-list">
-                                                    <li><a href="#">EUR €</a></li>
-                                                    <li class="active"><a href="#">USD $</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
                                         <!-- Currency Area End Here -->
                                         <!-- Begin Language Area -->
                                         <li>
-                                            <span class="language-selector-wrapper">Language :</span>
-                                            <div class="ht-language-trigger"><span>English</span></div>
+                                            <span class="language-selector-wrapper">{% trans 'Language' %} :</span>
+                                            <div class="ht-language-trigger"><span>{% trans 'Choose'%} ?</span></div>
                                             <div class="language ht-language">
                                                 <ul class="ht-setting-list">
                                                     <li class="active"><a href="#"><img src="{% static 'images/menu/flag-icon/1.jpg' %}" alt="">English</a></li>
@@ -121,7 +116,7 @@
                             <!-- Begin Header Logo Area -->
                             <div class="col-lg-3">
                                 <div class="logo pb-sm-30 pb-xs-30">
-                                    <a href="index.html">
+                                    <a href="{% url 'pages:home' %}">
                                         <img src="{% static 'images/menu/logo/1.jpg' %}" alt="">
                                     </a>
                                 </div>
@@ -256,11 +251,11 @@
                                                 </ul>
                                                 <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
                                                 <div class="minicart-button">
-                                                    <a href="shopping-cart.html" class="li-button li-button-fullwidth li-button-dark">
+                                                    <a href="{% url 'users:cart' %}" class="li-button li-button-fullwidth li-button-dark">
                                                         <span>View Full Cart</span>
                                                     </a>
-                                                    <a href="checkout.html" class="li-button li-button-fullwidth">
-                                                        <span>Checkout</span>
+                                                    <a href="{% url 'users:wishlist' %}" class="li-button li-button-fullwidth">
+                                                        <span>Wishlist</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -327,11 +322,11 @@
                                     <div class="single-slide align-center-left  animation-style-01 bg-1">
                                         <div class="slider-progress"></div>
                                         <div class="slider-content">
-                                            <h5>Sale Offer <span>-20% Off</span> This Week</h5>
-                                            <h2>Chamcham Galaxy S9 | S9+</h2>
-                                            <h3>Starting at <span>$1209.00</span></h3>
+                                            <h5>{% trans 'Sale Offer' %} <span>-20% </span> {% trans 'This Week' %}</h5>
+                                            <h2> Galaxy S9 | S9+</h2>
+                                            <h3>{% trans 'Starting at' %} <span>$1209.00</span></h3>
                                             <div class="default-btn slide-btn">
-                                                <a class="links" href="shop-left-sidebar.html">Shopping Now</a>
+                                                <a class="links" href="{% url 'products:list' %}">{% trans 'Shopping Now' %}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -340,11 +335,11 @@
                                     <div class="single-slide align-center-left animation-style-02 bg-2">
                                         <div class="slider-progress"></div>
                                         <div class="slider-content">
-                                            <h5>Sale Offer <span>Black Friday</span> This Week</h5>
-                                            <h2>Work Desk Surface Studio 2018</h2>
-                                            <h3>Starting at <span>$824.00</span></h3>
+                                             <h5>{% trans 'Sale Offer'%} <span>{% trans 'Black Friday' %}</span> {% trans 'This Week' %}</h5>
+                                            <h2>{% trans 'Work Desk Surface Studio' %} 2018</h2>
+                                            <h3>{% trans 'Starting at'%} <span>$824.00</span></h3>
                                             <div class="default-btn slide-btn">
-                                                <a class="links" href="shop-left-sidebar.html">Shopping Now</a>
+                                                <a class="links" href="{% url 'products:list' %}">{% trans 'Shopping Now' %}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -353,11 +348,11 @@
                                     <div class="single-slide align-center-left animation-style-01 bg-3">
                                         <div class="slider-progress"></div>
                                         <div class="slider-content">
-                                            <h5>Sale Offer <span>-10% Off</span> This Week</h5>
-                                            <h2>Phantom 4 Pro+ Obsidian</h2>
-                                            <h3>Starting at <span>$1849.00</span></h3>
+                                             <h5>{% trans 'Sale Offer' %} <span>-10% Off</span> {%trans 'This Week'%}</h5>
+                                            <h2>{% trans 'Phantom 4 Pro+ Obsidian' %}</h2>
+                                            <h3>{%trans 'Starting at'%} <span>$1849.00</span></h3>
                                             <div class="default-btn slide-btn">
-                                                <a class="links" href="shop-left-sidebar.html">Shopping Now</a>
+                                                <a class="links" href="{% url 'products:list' %}">{% trans 'Shopping Now' %}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -369,12 +364,12 @@
                         <!-- Begin Li Banner Area -->
                         <div class="col-lg-4 col-md-4 text-center pt-xs-30">
                             <div class="li-banner">
-                                <a href="#">
+                                <a href="{% url 'products:list' %}">
                                     <img src="{% static 'images/banner/1_1.jpg' %}" alt="">
                                 </a>
                             </div>
                             <div class="li-banner mt-15 mt-sm-30 mt-xs-30">
-                                <a href="#">
+                                <a href="{% url 'products:list' %}">
                                     <img src="{% static 'images/banner/1_2.jpg' %}" alt="">
                                 </a>
                             </div>
@@ -464,7 +459,7 @@
                         <!-- Begin Single Banner Area -->
                         <div class="col-lg-4 col-md-4 text-center">
                             <div class="single-banner">
-                                <a href="#">
+                                <a href="{% url 'products:list' %}">
                                     <img src="{% static 'images/banner/1_3.jpg' %}" alt="Li's Static Banner">
                                 </a>
                             </div>
@@ -473,7 +468,7 @@
                         <!-- Begin Single Banner Area -->
                         <div class="col-lg-4 col-md-4 text-center pt-xs-30">
                             <div class="single-banner">
-                                <a href="#">
+                                <a href="{% url 'products:list' %}">
                                     <img src="{% static 'images/banner/1_4.jpg' %}" alt="Li's Static Banner">
                                 </a>
                             </div>
@@ -482,7 +477,7 @@
                         <!-- Begin Single Banner Area -->
                         <div class="col-lg-4 col-md-4 text-center pt-xs-30">
                             <div class="single-banner">
-                                <a href="#">
+                                <a href="{% url 'products:list' %}">
                                     <img src="{% static 'images/banner/1_5.jpg' %}" alt="Li's Static Banner">
                                 </a>
                             </div>
@@ -530,7 +525,12 @@
                                                     </div>
                                                     <h4><a class="product_name" href="single-product.html">{{ product.name }}</a></h4>
                                                     <div class="price-box">
-                                                        <span class="new-price">{{ product.price }}</span>
+                                                        {% if product.is_discount %}
+                                                        <span class="new-price">{{ product.get_price }} $</span>
+                                                        <strike>{{ product.price }} </strike>$
+                                                        {% else %}
+                                                        <span class="new-price">{{ product.price }} $</span>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                                 <div class="add-actions">
@@ -569,15 +569,15 @@
                             <!-- Li's Static Home Image Area End Here -->
                             <!-- Begin Li's Static Home Content Area -->
                             <div class="li-static-home-content">
-                                <p>Sale Offer<span>-20% Off</span>This Week</p>
-                                <h2>Featured Product</h2>
-                                <h2>Meito Accessories 2018</h2>
+                                <p>{% trans 'Sale Offer' %}<span>-20% </span>{% trans 'This Week' %}</p>
+                                <h2>{% trans 'Featured Product' %}</h2>
+                                <h2>{% trans 'Meito Accessories' %} 2018</h2>
                                 <p class="schedule">
-                                    Starting at
+                                    {% trans 'Starting at' %}
                                     <span> $1209.00</span>
                                 </p>
                                 <div class="default-btn">
-                                    <a href="shop-left-sidebar.html" class="links">Shopping Now</a>
+                                    <a href="{% url 'products:list' %}" class="links">{% trans 'Shopping Now' %}</a>
                                 </div>
                             </div>
                             <!-- Li's Static Home Content Area End Here -->

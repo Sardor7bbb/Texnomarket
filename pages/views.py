@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView
 
 from pages.form import ContactModelForm
-from pages.models import AboutModel, TeamModel
+from pages.models import AboutModel
 from products.models import ProductModel, ProductCategoriesModel
 
 
@@ -11,7 +11,6 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['teams'] = TeamModel.objects.all()
         context['products'] = ProductModel.objects.all()
         context['categories'] = ProductCategoriesModel.objects.all()
         context['abouts'] = AboutModel.objects.all()

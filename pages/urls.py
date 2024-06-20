@@ -3,6 +3,7 @@ from django.urls import path
 
 from pages.views import HomePageView, ContactTemplateView, AboutTemplateView, ShopTemplateView
 
+
 app_name = 'pages'
 
 urlpatterns = [

@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
     
@@ -73,9 +75,14 @@
                                             <div class="ht-setting-trigger"><span>Setting</span></div>
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
-                                                    <li><a href="login-register.html">My Account</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="login-register.html">Sign In</a></li>
+                                                    <li><a href="login-register.html">{% trans 'My Accounts' %}</a></li>
+                                                    {%if request.user.is_authenticated%}
+                                                        <li><a href="{% url 'users:checkout' %}">Checkout</a></li>
+                                                        <li><a href="{% url 'users:logout'%}">{% trans 'Logout' %}</a></li>
+                                                    {%else%}
+                                                        <li><a href="{% url 'users:register' %}">Register</a></li>
+                                                        <li><a href="{% url 'users:login' %}">Sign In</a></li>
+                                                    {%endif%}
                                                 </ul>
                                             </div>
                                         </li>

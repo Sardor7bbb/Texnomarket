@@ -1,12 +1,13 @@
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class ContactModel(models.Model):
-    name = models.CharField(max_length=128)
-    email = models.EmailField()
-    subject = models.CharField(max_length=255, null=True, blank=True)
-    massage = models.TextField()
+    name = models.CharField(max_length=128, verbose_name=_('name'))
+    email = models.EmailField(verbose_name=_('email'))
+    subject = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('subject'))
+    massage = models.TextField(verbose_name=_('massage'))
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -15,24 +16,8 @@ class ContactModel(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'contact'
-        verbose_name_plural = 'contacts'
-
-
-class TeamModel(models.Model):
-    full_name = models.CharField(max_length=128)
-    job = models.CharField(max_length=128)
-    email = models.EmailField()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.full_name
-
-    class Meta:
-        verbose_name = 'feedback'
-        verbose_name_plural = 'feedbacks'
+        verbose_name = _('contact')
+        verbose_name_plural = _('contacts')
 
 
 class AboutModel(models.Model):

@@ -76,23 +76,14 @@
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
                                                     <li><a href="login-register.html">My Account</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="login-register.html">Sign In</a></li>
+                                                    <li><a href="{% url 'users:checkout' %}">Checkout</a></li>
+                                                    <li><a href="{% url 'users:register' %}">Register</a></li>
+                                                    <li><a href="{% url 'users:login' %}">Sign In</a></li>
                                                 </ul>
                                             </div>
                                         </li>
                                         <!-- Setting Area End Here -->
                                         <!-- Begin Currency Area -->
-                                        <li>
-                                            <span class="currency-selector-wrapper">Currency :</span>
-                                            <div class="ht-currency-trigger"><span>USD $</span></div>
-                                            <div class="currency ht-currency">
-                                                <ul class="ht-setting-list">
-                                                    <li><a href="#">EUR €</a></li>
-                                                    <li class="active"><a href="#">USD $</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
                                         <!-- Currency Area End Here -->
                                         <!-- Begin Language Area -->
                                         <li>
@@ -256,11 +247,11 @@
                                                 </ul>
                                                 <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
                                                 <div class="minicart-button">
-                                                    <a href="shopping-cart.html" class="li-button li-button-fullwidth li-button-dark">
+                                                    <a href="{% url 'users:cart' %}" class="li-button li-button-fullwidth li-button-dark">
                                                         <span>View Full Cart</span>
                                                     </a>
-                                                    <a href="checkout.html" class="li-button li-button-fullwidth">
-                                                        <span>Checkout</span>
+                                                    <a href="{% url 'users:wishlist' %}" class="li-button li-button-fullwidth">
+                                                        <span>Wishlist</span>
                                                     </a>
                                                 </div>
                                             </div>

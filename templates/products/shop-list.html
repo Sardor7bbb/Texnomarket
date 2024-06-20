@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -76,23 +77,19 @@
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
                                                     <li><a href="login-register.html">My Account</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="login-register.html">Sign In</a></li>
+                                                    {%if request.user.is_authenticated%}
+                                                        <li><a href="{% url 'users:checkout' %}">Checkout</a></li>
+                                                        <li><a href="{% url 'users:logout'%}">{% trans 'Logout' %}</a></li>
+
+                                                    {%else%}
+                                                        <li><a href="{% url 'users:register' %}">Register</a></li>
+                                                        <li><a href="{% url 'users:login' %}">Sign In</a></li>
+                                                    {%endif%}
                                                 </ul>
                                             </div>
                                         </li>
                                         <!-- Setting Area End Here -->
                                         <!-- Begin Currency Area -->
-                                        <li>
-                                            <span class="currency-selector-wrapper">Currency :</span>
-                                            <div class="ht-currency-trigger"><span>USD $</span></div>
-                                            <div class="currency ht-currency">
-                                                <ul class="ht-setting-list">
-                                                    <li><a href="#">EUR €</a></li>
-                                                    <li class="active"><a href="#">USD $</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
                                         <!-- Currency Area End Here -->
                                         <!-- Begin Language Area -->
                                         <li>
@@ -130,7 +127,7 @@
                             <!-- Begin Header Middle Right Area -->
                             <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                                 <!-- Begin Header Middle Searchbox Area -->
-                                <form action="#" class="hm-searchbox">
+                                <form action="{% url 'products:list' %}" class="hm-searchbox">
                                     <select class="nice-select select-search-category">
                                         <option value="0">All</option>                         
                                         <option value="10">Laptops</option>                     
@@ -203,7 +200,7 @@
                                         <option value="15">Smartwatch</option>                           
                                         <option value="16">Accessories</option>
                                     </select>
-                                    <input type="text" placeholder="Enter your search key ...">
+                                    <input name="q" type="search" placeholder="Enter your search key ..." value="{{ request.GET.q }}">
                                     <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                                 </form>
                                 <!-- Header Middle Searchbox Area End Here -->
@@ -256,11 +253,11 @@
                                                 </ul>
                                                 <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
                                                 <div class="minicart-button">
-                                                    <a href="shopping-cart.html" class="li-button li-button-fullwidth li-button-dark">
+                                                    <a href="{% url 'users:cart' %}" class="li-button li-button-fullwidth li-button-dark">
                                                         <span>View Full Cart</span>
                                                     </a>
-                                                    <a href="checkout.html" class="li-button li-button-fullwidth">
-                                                        <span>Checkout</span>
+                                                    <a href="{% url 'users:wishlist' %}" class="li-button li-button-fullwidth">
+                                                        <span>Wishlist</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -404,7 +401,12 @@
                                                                 </div>
                                                                 <h4><a class="product_name" href="{% url 'products:detail' pk=product.id %}">{{ product.name }}</a></h4>
                                                                 <div class="price-box">
-                                                                    <span class="new-price">{{ product.price }}</span>
+                                                                    {% if product.is_discount %}
+                                                                        <span class="new-price">{{ product.get_price }} $</span>
+                                                                        <strike>{{ product.price }} </strike>$
+                                                                    {% else %}
+                                                                        <span class="new-price">{{ product.price }} $</span>
+                                                                    {% endif %}
                                                                 </div>
                                                             </div>
                                                             <div class="add-actions">

@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -76,23 +77,19 @@
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
                                                     <li><a href="login-register.html">My Account</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="login-register.html">Sign In</a></li>
+                                                    {%if request.user.is_authenticated%}
+                                                        <li><a href="{% url 'users:checkout' %}">Checkout</a></li>
+                                                        <li><a href="{% url 'users:logout'%}">{% trans 'Logout' %}</a></li>
+
+                                                    {%else%}
+                                                        <li><a href="{% url 'users:register' %}">Register</a></li>
+                                                        <li><a href="{% url 'users:login' %}">Sign In</a></li>
+                                                    {%endif%}
                                                 </ul>
                                             </div>
                                         </li>
                                         <!-- Setting Area End Here -->
                                         <!-- Begin Currency Area -->
-                                        <li>
-                                            <span class="currency-selector-wrapper">Currency :</span>
-                                            <div class="ht-currency-trigger"><span>USD $</span></div>
-                                            <div class="currency ht-currency">
-                                                <ul class="ht-setting-list">
-                                                    <li><a href="#">EUR €</a></li>
-                                                    <li class="active"><a href="#">USD $</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
                                         <!-- Currency Area End Here -->
                                         <!-- Begin Language Area -->
                                         <li>
@@ -256,11 +253,11 @@
                                                 </ul>
                                                 <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
                                                 <div class="minicart-button">
-                                                    <a href="shopping-cart.html" class="li-button li-button-fullwidth li-button-dark">
+                                                    <a href="{% url 'users:cart' %}" class="li-button li-button-fullwidth li-button-dark">
                                                         <span>View Full Cart</span>
                                                     </a>
-                                                    <a href="checkout.html" class="li-button li-button-fullwidth">
-                                                        <span>Checkout</span>
+                                                    <a href="{% url 'users:wishlist' %}" class="li-button li-button-fullwidth">
+                                                        <span>Wishlist</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -331,42 +328,20 @@
                     <div class="row single-product-area">
                         <div class="col-lg-5 col-md-6">
                            <!-- Product Details Left -->
-                            <div class="product-details-left pt-60">
-                                <div class="product-details-thumbs slider-thumbs-1">
-                                    <div class="sm-image"><img src="{% static 'images/product/small-size/1.jpg' %}" alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="{% static 'images/product/small-size/2.jpg' %}" alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="{% static 'images/product/small-size/3.jpg' %}" alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="{% static 'images/product/small-size/4.jpg' %}" alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="{% static 'images/product/small-size/5.jpg' %}" alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="{% static 'images/product/small-size/6.jpg' %}" alt="product image thumb"></div>
-                                </div>
-                                <div class="product-details-images slider-navigation-1">
-                                    <div class="lg-image">
-                                        <a class="popup-img venobox vbox-item" href="{% static 'images/product/large-size/1.jpg' %}" data-gall="myGallery">
-                                            <img src="{% static 'images/product/large-size/1.jpg' %}" alt="product image">
-                                        </a>
+                              <div class="product-details-left">
+                                        <div class="product-details-images slider-navigation-1">
+                                            <div class="lg-image">
+                                                <a class="popup-img venobox vbox-item" href="{% url 'products:detail' pk=products.id %}" data-gall="myGallery">
+                                                    <img src="{{ products.image.url }}" alt="product image">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-details-thumbs slider-thumbs-1">
+                                            {% for image in product %}
+                                                <div class="sm-image"><img src="{{ image.image.url }}" alt="product image thumb"></div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                    <div class="lg-image">
-                                        <a class="popup-img venobox vbox-item" href="{% static 'images/product/large-size/2.jpg' %}" data-gall="myGallery">
-                                            <img src="{% static 'images/product/large-size/2.jpg' %}" alt="product image">
-                                        </a>
-                                    </div>
-                                    <div class="lg-image">
-                                        <a class="popup-img venobox vbox-item" href="{% static 'images/product/large-size/3.jpg' %}" data-gall="myGallery">
-                                            <img src="{% static 'images/product/large-size/3.jpg' %}" alt="product image">
-                                        </a>
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="{% static 'images/product/large-size/4.jpg' %}" alt="product image">
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="{% static 'images/product/large-size/5.jpg' %}" alt="product image">
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="{% static 'images/product/large-size/6.jpg' %}" alt="product image">
-                                    </div>
-                                </div>
-                            </div>
                             <!--// Product Details Left -->
                         </div>
 
@@ -580,12 +555,13 @@
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
-                                    {% for product in products %}
+                                    {% for product in product %}
+                                    {% csrf_token %}
                                     <div class="col-lg-12">
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="single-product.html">
+                                                <a href="{% url 'products:detail' pk=product.id %}">
                                                     <img src="{{ product.image.url }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -594,7 +570,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="product-details.html">{{ product.categories.name }}</a>
+                                                            <a href="{% url 'products:detail' pk=product.id %}">{{ product.categories.name }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -606,7 +582,7 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html">{{ product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'products:detail' pk=product.id %}">{{ product.name }}</a></h4>
                                                     <div class="price-box">
                                                         {% if product.is_discount %}
                                                         <span class="new-price">{{ product.get_price }} $</span>
